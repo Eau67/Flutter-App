@@ -53,9 +53,11 @@ Make sure the following packages are in your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^1.0.4
-  http: ^1.2.0
-  ffi: ^2.1.0
+  image_picker: ^1.0.7
+  image: ^4.0.15
+  ffi: ^2.0.2
+  http: ^0.13.0
+  http_parser: ^4.0.2
 ```
 
 Ensure the compiled `ImageFiltersCpp.dll` is located in your project root or referenced correctly in `image_filters.dart`.
