@@ -158,18 +158,3 @@ Uri.parse('http://<your-ip>:8000/process-image/')
 ```
 
 ---
-
-## 🛠️ Future Improvements
-
-- Add support for mobile AI inference
-- Export final image to gallery
-- Add filter intensity sliders
-- Cross-platform FFI support
-
----
-
-## 🧑‍💻 Authors
-
-- Flutter, Dart, and UI: **You**
-- C++ Filters: **You**
-- Python FastAPI AI backend: **You**
