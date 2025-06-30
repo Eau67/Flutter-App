@@ -18,14 +18,16 @@ This cross-platform image filtering app allows users to apply native C++ filters
 
 ```
 image_filter_app/
+├── ai_server.py                         # FastAPI image processing backend
 ├── lib/
-│   ├── main.dart            # Flutter UI code
-│   ├── image_filters.dart   # Dart FFI integration with C++ filters
-│   ├── python_api.dart      # HTTP client to communicate with Python FastAPI
-├── native/
-│   └── ImageFiltersCpp.dll  # Compiled C++ DLL (for Windows only)
-├── python_server/
-│   └── main.py              # FastAPI image processing backend
+│   ├── main.dart                        # Flutter UI code
+│   ├── image_filters.dart               # Dart FFI integration with C++ filters
+│   ├── python_api.dart                  # HTTP client to communicate with Python FastAPI
+├── build/
+│   └── windows/ 
+|       └── runner/
+|            └── Debug/
+|                └──ImageFiltersCpp.dll  # Compiled C++ DLL (for Windows only)
 ```
 
 ---
