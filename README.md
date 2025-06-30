@@ -155,10 +155,8 @@ Uri.parse('http://<your-ip>:8000/process-image/')
 
 ## 📷 Demo
 
-> 📝 You can add a short `.mp4` video demo here by uploading it elsewhere (e.g., [Imgur](https://imgur.com) or [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github)) and embedding:
-
 ```markdown
-![Demo](https://your-url.com/demo.gif)
+![Click to watch the demo](https://github.com/your-username/your-repo/releases/download/v1.0/your-video.mp4)
 ```
 
 ---
