@@ -155,6 +155,6 @@ Uri.parse('http://<your-ip>:8000/process-image/')
 
 ## 📷 Demo
 
-[Click to watch the demo](https://github.com/Eau67/Flutter-App/releases/download/v1.0/flutter_application_1.2025-06-30.19-24-34.mp4)
+[Click to watch the demo](https://github.com/Eau67/Flutter-App/releases/download/v1.0/flutter_application_demo.mp4)
 
 ---
