@@ -1,165 +1,175 @@
-# Image Filter App with Flutter, C++ (OpenCV), and Python API
+# 📸 Image Filter App with Flutter, C++ (FFI), and Python FastAPI AI Filter
 
-This is a Flutter-based image filtering application that integrates with:
-
-* A native C++ image filter library using OpenCV (via Dart FFI)
-* A Python FastAPI backend for AI-based image processing
-
-## Table of Contents
-
-* [Project Structure](#project-structure)
-* [Setup Instructions](#setup-instructions)
-
-  * [1. Flutter App](#1-flutter-app)
-  * [2. C++ Native Filter Library](#2-c-native-filter-library)
-  * [3. Python FastAPI Server](#3-python-fastapi-server)
-* [Usage](#usage)
-* [Available Filters](#available-filters)
+This cross-platform image filtering app allows users to apply native C++ filters or advanced AI-style filters using a Python FastAPI backend. The UI is built using Flutter and provides an interactive before/after comparison slider.
 
 ---
 
-## Project Structure
+## ✨ Features
+
+- Pick an image from your gallery
+- Apply native filters (C++ via FFI): Grayscale, Sepia, Invert, Blur, Sharpen, Edge Detection, Emboss
+- Apply AI-style filters (FastAPI + OpenCV Python backend)
+- Navigate through filter history (Undo / Redo)
+- Compare original vs. filtered with a draggable slider
+
+---
+
+## 📁 Project Structure
 
 ```
-main_app/
+image_filter_app/
 ├── lib/
-│   ├── main.dart              # Main Flutter UI and logic
-│   ├── image_filters.dart     # Dart FFI + isolate logic to call C++ filters
-│   └── python_api.dart        # HTTP request to send image to Python server
-├── ImageFiltersCpp.dll        # Compiled C++ DLL (for Windows)
-├── cpp/                       # C++ source code
-│   └── image_filter.cpp       # OpenCV filters
+│   ├── main.dart            # Flutter UI code
+│   ├── image_filters.dart   # Dart FFI integration with C++ filters
+│   ├── python_api.dart      # HTTP client to communicate with Python FastAPI
+├── native/
+│   └── ImageFiltersCpp.dll  # Compiled C++ DLL (for Windows only)
 ├── python_server/
-│   └── main.py                # FastAPI app for AI filter
-└── pubspec.yaml               # Flutter dependencies
+│   └── main.py              # FastAPI image processing backend
 ```
 
 ---
 
-## Setup Instructions
+## 🚀 Setup Guide
 
-### 1. Flutter App
+### 1. Flutter App Setup
 
-#### Requirements:
+#### ✅ Prerequisites:
+- Flutter SDK installed: https://docs.flutter.dev/get-started/install
+- Visual Studio (for building C++ DLLs if you need to modify)
+- Android/iOS emulator or physical device
 
-* Flutter SDK installed
-* VS Code or Android Studio (with Flutter & Dart plugins)
-
-#### Steps:
-
-1. Clone the repository:
+#### 🔧 Steps:
 
 ```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo/main_app
-```
-
-2. Install dependencies:
-
-```bash
+git clone <your-repo-url>
+cd image_filter_app
 flutter pub get
 ```
 
-3. Ensure `ImageFiltersCpp.dll` is located in the root of the project.
+Make sure the following packages are in your `pubspec.yaml`:
 
-   * If not, compile it from the `cpp` source code (see below).
-
-4. Run the Flutter app (e.g., on Windows desktop):
-
-```bash
-flutter run -d windows
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  image_picker: ^1.0.4
+  http: ^1.2.0
+  ffi: ^2.1.0
 ```
 
-> 💡 To run on Android, switch to an emulator or real device and ensure C++ FFI is not Windows-specific.
+Ensure the compiled `ImageFiltersCpp.dll` is located in your project root or referenced correctly in `image_filters.dart`.
+
+#### ▶️ Run App:
+
+```bash
+flutter run
+```
 
 ---
 
-### 2. C++ Native Filter Library
+### 2. Native C++ Filter Library (Windows Only)
 
-#### Requirements:
+#### ✅ Prerequisites:
 
-* OpenCV installed
-* CMake or Visual Studio with C++ support
+- Visual Studio with C++ Desktop Development workload
+- OpenCV installed and environment variables set
 
-#### Build Steps (Windows):
+#### 📦 Compile the DLL:
 
-1. Open the `cpp/` directory in Visual Studio.
-2. Add `image_filter.cpp` as a source file.
-3. Link against OpenCV.
-4. Compile to produce `ImageFiltersCpp.dll`.
+1. Create a new DLL project in Visual Studio
+2. Add the `apply_filter` and `free_image` functions
+3. Link against OpenCV libraries
+4. Build and copy `ImageFiltersCpp.dll` into your Flutter project
 
-**Filters Supported:** Grayscale, Sepia, Invert, Blur, Sharpen, EdgeDetection, Emboss
-
-> The DLL is loaded dynamically in Dart via `DynamicLibrary.open("ImageFiltersCpp.dll")`.
+> 📝 The `image_filters.dart` file uses FFI to load this DLL:
+```dart
+DynamicLibrary.open("ImageFiltersCpp.dll");
+```
 
 ---
 
 ### 3. Python FastAPI Server
 
-#### Requirements:
+#### ✅ Prerequisites:
+- Python 3.8+
+- Install required packages:
 
-* Python 3.7+
-* pip
+```bash
+pip install fastapi uvicorn opencv-python numpy python-multipart
+```
 
-#### Installation:
+#### ▶️ Run the server:
 
 ```bash
 cd python_server
-pip install fastapi uvicorn opencv-python numpy
-```
-
-#### Run the server:
-
-```bash
 uvicorn main:app --reload
 ```
 
-Server will run on `http://127.0.0.1:8000/process-image/`
+Make sure it runs at: `http://127.0.0.1:8000/process-image/`
 
-#### Filter Used:
-
-* A **cartoon-like color shifting filter** is applied:
-
-  * Converts to HSV
-  * Rotates the hue channel
-  * Converts back to BGR
-
-> You can customize the Python filter logic in `main.py`
+If running on a physical device, use your PC's IP address and update the Flutter code accordingly:
+```dart
+Uri.parse('http://<your-ip>:8000/process-image/')
+```
 
 ---
 
-## Usage
+## 🧪 Usage Guide
 
-1. Launch the Flutter app.
-2. Tap **Pick Image** to select an image.
-3. Use any of the following:
-
-   * **Native Filters**: Apply fast filters using C++ (OpenCV)
-   * **AI Filter**: Sends image to FastAPI server for a cartoon-style effect
-4. Use **Undo** / **Redo** to navigate filter history.
-5. Drag the center handle to compare original vs filtered images.
+1. Launch the Flutter app
+2. Click **"Pick Image"** and select one from gallery
+3. Use the filter buttons to apply transformations
+4. Drag the circular slider to compare original vs. filtered image
+5. Use **Undo** and **Redo** to navigate through filter steps
+6. Press **Apply AI Filter** to send the image to the Python server
 
 ---
 
-## Available Filters
+## 🔍 Filter Descriptions
 
-| Name          | Description                    | Type         |
-| ------------- | ------------------------------ | ------------ |
-| Grayscale     | Converts to black and white    | Native (C++) |
-| Sepia         | Vintage warm tones             | Native (C++) |
-| Invert        | Color inversion                | Native (C++) |
-| Blur          | Gaussian blur                  | Native (C++) |
-| Sharpen       | Sharpens the image             | Native (C++) |
-| EdgeDetection | Canny edge detection           | Native (C++) |
-| Emboss        | Emboss-style 3D effect         | Native (C++) |
-| AI Filter     | Hue-shifted cartoon-like style | Python API   |
+| Filter Name     | Description                            |
+|----------------|----------------------------------------|
+| Grayscale       | Converts image to black & white       |
+| Sepia           | Applies a warm brown vintage effect    |
+| Invert          | Inverts all pixel colors               |
+| Blur            | Applies Gaussian blur                  |
+| Sharpen         | Sharpens edges using convolution       |
+| EdgeDetection   | Uses Canny algorithm for edge finding  |
+| Emboss          | Highlights edges with emboss effect    |
+| AI Filter       | Rotates hue channel via Python/OpenCV  |
 
 ---
 
-## Notes
+## 💡 Notes
 
-* The Python server is meant to simulate a heavier AI model.
-* Replace it with a cloud-deployed ML model if desired.
-* This project demonstrates real-time image filtering with multi-language integration.
+- **Windows only**: The current C++ FFI setup supports Windows due to `.dll` usage. For cross-platform support, compile `.so` (Linux/Android) or `.dylib` (macOS/iOS).
+- The Python backend runs locally. For production, consider deploying it on a remote server or container.
+- Make sure firewall allows connections to your FastAPI port (8000 by default).
 
-Feel free to modify and expand it!
+---
+
+## 📷 Demo
+
+> 📝 You can add a short `.mp4` video demo here by uploading it elsewhere (e.g., [Imgur](https://imgur.com) or [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github)) and embedding:
+
+```markdown
+![Demo](https://your-url.com/demo.gif)
+```
+
+---
+
+## 🛠️ Future Improvements
+
+- Add support for mobile AI inference
+- Export final image to gallery
+- Add filter intensity sliders
+- Cross-platform FFI support
+
+---
+
+## 🧑‍💻 Authors
+
+- Flutter, Dart, and UI: **You**
+- C++ Filters: **You**
+- Python FastAPI AI backend: **You**
